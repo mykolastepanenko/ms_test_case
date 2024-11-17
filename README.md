@@ -1,5 +1,14 @@
 # MS_TEST_CASE
 
+- [Project Setup](#project-setup)
+- [API Request for SMS Confirmation](#api-request-for-sms-confirmation)
+- [Validation measures and spam prevention flow](#validation-measures-and-spam-prevention-flow)
+- [More about rate limiters](#more-about-rate-limiters)
+- [My recommendations on how would you make this service more fault-tolerant (Bonus)](#my-recommendations-on-how-would-you-make-this-service-more-fault-tolerant-bonus)
+- [Test case overview](#test-case-overview)
+- [How long the task took](#how-long-the-task-took)
+
+
 ---
 
 # Project Setup
