@@ -5,7 +5,7 @@
 - [Validation measures and spam prevention flow](#validation-measures-and-spam-prevention-flow)
 - [More about rate limiters](#more-about-rate-limiters)
 - [My recommendations on how would you make this service more fault-tolerant (Bonus)](#my-recommendations-on-how-would-you-make-this-service-more-fault-tolerant-bonus)
-- [Test case overview](#test-case-overview)
+- [Test case summaries](#test-case-summaries)
 - [How long the task took](#how-long-the-task-took)
 
 
@@ -205,7 +205,7 @@ If an HTTP request fails to pass the filter, we block the user.
 5. To log bans I use a polymorphic table "ban_log".
 We should add MySQL triggers to the users, phone_number, and client_ip tables to improve database consistency
 
-# Test case overview
+# Test case summaries
 
 At least one implementation:
 - Validate by user info (Done!)
