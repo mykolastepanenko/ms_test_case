@@ -81,7 +81,7 @@ docker exec -it ms_test_case-php bin/console doctrine:fixtures:load
 If you have sent a valid phone number you will get the next response:
 
 
-```http request
+```
 HTTP 200 OK
 Content-Type: application/json
 ```
@@ -93,7 +93,7 @@ Content-Type: application/json
 
 #### Invalid phone number format response
 If you have sent an invalid phone number you will get the following response:
-```http request
+```
 HTTP 422 Unprocessable Content
 Content-Type: application/json
 ```
@@ -107,7 +107,7 @@ Content-Type: application/json
 #### Not contain `phoneNumber` field response
 If your request body does not contain the `phoneNumber` field you will get the following response:
 
-```http request
+```
 HTTP 422 Unprocessable Content
 Content-Type: application/json
 ```
@@ -119,7 +119,7 @@ Content-Type: application/json
 
 #### Invalid request body format
 If you have sent no `Content-Type: application/json` you will get the next response:
-```http request
+```
 HTTP 415 Unsupported Media Type
 Content-Type: application/json
 ```
@@ -141,7 +141,7 @@ In this case, we send SMS codes only to phone numbers that have interacted with 
 To validate phone numbers I use `libphonenumber` by Google (https://github.com/giggsey/libphonenumber-for-php.git).
 3. We detect if the user is banned using the custom `#[DetectBannedUser]` attribute.
 If the user is banned we return the next response:
-```http request
+```
 HTTP 422 Unprocessable Content
 Content-Type: application/json
 ```
