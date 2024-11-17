@@ -1,0 +1,3 @@
+map $host $project_dir {
+  default "$PROJECT_DIR";
+}

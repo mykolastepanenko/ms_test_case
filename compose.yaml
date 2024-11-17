@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  php:
+    container_name: ${PROJECT_NAME}-php
+    restart: unless-stopped
+    working_dir: ${WORKDIR}/${PROJECT_NAME}
+    build:
+      context: ./
+      dockerfile: "./.docker/php/Dockerfile"
+      args:
+        - WORKDIR=${WORKDIR}/${PROJECT_NAME}
+    volumes:
+     - ./.:${WORKDIR}/${PROJECT_NAME}
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - ms_test_case
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  mysql:
+    image: mysql:8
+    container_name: ${PROJECT_NAME}-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    expose:
+      - "3306"
+    volumes:
+      - ./.docker/mysql/volume:/var/lib/mysql
+    networks:
+      - ms_test_case
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  redis:
+    image: redis:latest
+    container_name: ${PROJECT_NAME}-redis
+    networks:
+      - ms_test_case
+    expose:
+      - "6379"
+    command: [redis-server, /etc/redis/redis.conf]
+    volumes:
+      - ./.docker/redis/volume:/data
+      - ./.docker/redis/redis.conf:/etc/redis/redis.conf
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  nginx:
+    container_name: ${PROJECT_NAME}-nginx
+    image: nginx:latest
+    working_dir: ${WORKDIR}
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./.docker/nginx/templates:/etc/nginx/templates
+      - ./.docker/logs/nginx:/var/log/nginx
+      - ./.:${WORKDIR}/${PROJECT_NAME}
+    environment:
+      PROJECT_DIR: ${WORKDIR}/${PROJECT_NAME}
+    depends_on:
+      - php
+    networks:
+      - ms_test_case
+
+networks:
+  ms_test_case:
+    driver: bridge
